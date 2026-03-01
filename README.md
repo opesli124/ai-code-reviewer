@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: opesli124/ai-code-reviewer@v1.1.0
+      - uses: opesli124/ai-code-reviewer@v1.2.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           api-key: ${{ secrets.OPENAI_API_KEY }}
