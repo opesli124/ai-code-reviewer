@@ -1,9 +1,9 @@
-name: "PR Summarizer"
-description: "Automatically generate AI-powered summaries for Pull Requests"
+name: "AI Code Reviewer"
+description: "AI-powered code review for Pull Requests"
 author: "Auto Company"
 branding:
-  icon: "git-pull-request"
-  color: "blue"
+  icon: "shield-check"
+  color: "green"
 inputs:
   github-token:
     description: "GitHub token for posting comments"
@@ -15,9 +15,9 @@ inputs:
     description: "AI model to use"
     default: "gpt-4"
     required: false
-  summary-prompt:
-    description: "Custom prompt for summarization"
-    default: "You are a code reviewer. Provide a concise summary of the following PR changes in 2-3 sentences."
+  review-prompt:
+    description: "Custom prompt for code review"
+    default: "You are an expert code reviewer. Analyze the following PR changes and provide feedback on: 1) Security issues, 2) Bug potential, 3) Code quality, 4) Best practices. Be concise but actionable."
     required: false
 runs:
   using: "node20"
