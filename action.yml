@@ -1,0 +1,24 @@
+name: "PR Summarizer"
+description: "Automatically generate AI-powered summaries for Pull Requests"
+author: "Auto Company"
+branding:
+  icon: "git-pull-request"
+  color: "blue"
+inputs:
+  github-token:
+    description: "GitHub token for posting comments"
+    required: true
+  openai-api-key:
+    description: "OpenAI API Key"
+    required: true
+  model:
+    description: "AI model to use"
+    default: "gpt-4"
+    required: false
+  summary-prompt:
+    description: "Custom prompt for summarization"
+    default: "You are a code reviewer. Provide a concise summary of the following PR changes in 2-3 sentences."
+    required: false
+runs:
+  using: "node20"
+  main: "dist/index.js"
