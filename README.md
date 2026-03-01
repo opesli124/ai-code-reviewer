@@ -34,8 +34,9 @@ jobs:
 - uses: opesli124/ai-code-reviewer@v1.0.0
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
-    openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-    model: gpt-4  # or gpt-3.5-turbo
+    api-key: ${{ secrets.OPENAI_API_KEY }}
+    provider: openai
+    model: gpt-4
 ```
 
 ## Usage with Anthropic Claude
@@ -44,7 +45,8 @@ jobs:
 - uses: opesli124/ai-code-reviewer@v1.0.0
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
-    openai-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+    api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+    provider: anthropic
     model: claude-3-opus-20240229
     review-prompt: "You are a senior software engineer. Review the following PR changes for code quality, security issues, and best practices."
 ```
@@ -55,8 +57,9 @@ jobs:
 - uses: opesli124/ai-code-reviewer@v1.0.0
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
-    openai-api-key: ${{ secrets.OLLAMA_API_KEY }}
-    model: codellama  # or llama2, mistral, etc.
+    api-key: http://localhost:11434
+    provider: ollama
+    model: codellama
 ```
 
 ## Configuration
@@ -64,7 +67,8 @@ jobs:
 | Input | Required | Description |
 |-------|----------|-------------|
 | `github-token` | Yes | GitHub token for posting comments |
-| `openai-api-key` | Yes | API key for AI service |
+| `api-key` | Yes | API key for AI service |
+| `provider` | No | AI provider: openai, anthropic, or ollama (default: openai) |
 | `model` | No | AI model to use (default: gpt-4) |
 | `review-prompt` | No | Custom prompt for code review |
 

@@ -1,5 +1,5 @@
 name: "AI Code Reviewer"
-description: "AI-powered code review for Pull Requests"
+description: "AI-powered code review for Pull Requests using OpenAI, Anthropic Claude, or Ollama"
 author: "Auto Company"
 branding:
   icon: "shield-check"
@@ -8,9 +8,13 @@ inputs:
   github-token:
     description: "GitHub token for posting comments"
     required: true
-  openai-api-key:
-    description: "OpenAI API Key"
+  api-key:
+    description: "API key for AI service (OpenAI, Anthropic, or Ollama)"
     required: true
+  provider:
+    description: "AI provider: openai, anthropic, or ollama"
+    default: "openai"
+    required: false
   model:
     description: "AI model to use"
     default: "gpt-4"
