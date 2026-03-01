@@ -64,6 +64,24 @@ jobs:
     model: codellama
 ```
 
+## Cost Control (Recommended)
+
+Avoid expensive API calls on large PRs:
+
+```yaml
+- uses: opesli124/ai-code-reviewer@v1.1.0
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+    api-key: ${{ secrets.OPENAI_API_KEY }}
+    max-files: 15          # Skip if > 15 files changed
+    max-changes: 400      # Skip if > 400 lines changed
+    skip-label: no-ai-review  # Add this label to skip
+```
+
+## Skip Review with Label
+
+Add `no-ai-review` label to a PR to skip AI review entirely:
+
 ## Configuration
 
 | Input | Required | Description |
@@ -73,6 +91,9 @@ jobs:
 | `provider` | No | AI provider: openai, anthropic, or ollama (default: openai) |
 | `model` | No | AI model to use (default: gpt-4) |
 | `review-prompt` | No | Custom prompt for code review |
+| `max-files` | No | Max files to review, skip if exceeded (default: 20) |
+| `max-changes` | No | Max total changes (additions+deletions), skip if exceeded (default: 500) |
+| `skip-label` | No | Label to skip review (default: ai-skip-review) |
 
 ## Supported AI Models
 

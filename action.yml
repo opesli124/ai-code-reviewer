@@ -23,6 +23,18 @@ inputs:
     description: "Custom prompt for code review"
     default: "You are an expert code reviewer. Analyze the following PR changes and provide feedback on: 1) Security issues, 2) Bug potential, 3) Code quality, 4) Best practices. Be concise but actionable."
     required: false
+  max-files:
+    description: "Maximum number of files to review (skip if exceeded)"
+    default: "20"
+    required: false
+  max-changes:
+    description: "Maximum total changes (additions+deletions) to review (skip if exceeded)"
+    default: "500"
+    required: false
+  skip-label:
+    description: "Label to skip review"
+    default: "ai-skip-review"
+    required: false
 runs:
   using: "node20"
   main: "dist/index.js"

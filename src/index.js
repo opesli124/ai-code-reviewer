@@ -65,6 +65,9 @@ async function run() {
     const provider = core.getInput('provider') || 'openai';
     const model = core.getInput('model');
     const reviewPrompt = core.getInput('review-prompt') || 'You are an expert code reviewer. Analyze the following PR changes and provide feedback on: 1) Security issues, 2) Bug potential, 3) Code quality, 4) Best practices. Be concise but actionable.';
+    const maxFiles = parseInt(core.getInput('max-files') || '20', 10);
+    const maxChanges = parseInt(core.getInput('max-changes') || '500', 10);
+    const skipLabel = core.getInput('skip-label') || 'ai-skip-review';
 
     const client = github.getOctokit(githubToken);
     const context = github.context;
@@ -80,12 +83,45 @@ async function run() {
     const repoOwner = context.repo.owner;
     const repoRepo = context.repo.repo;
 
+    // Check for skip label
+    const prLabels = context.payload.pull_request.labels || [];
+    if (prLabels.some(l => l.name === skipLabel)) {
+      core.info(`Skipping review - PR has "${skipLabel}" label`);
+      return;
+    }
+
     // Get the diff
     const { data: files } = await client.rest.pulls.listFiles({
       owner: repoOwner,
       repo: repoRepo,
       pull_number: prNumber,
     });
+
+    // Calculate total changes
+    const totalChanges = files.reduce((sum, file) => sum + file.additions + file.deletions, 0);
+
+    // Check limits
+    if (files.length > maxFiles) {
+      core.info(`Skipping review - ${files.length} files exceeds limit of ${maxFiles}`);
+      await client.rest.issues.createComment({
+        owner: repoOwner,
+        repo: repoRepo,
+        issue_number: prNumber,
+        body: `## 🤖 AI Code Review\n\n⚠️ Skipped - Too many files changed (${files.length} > ${maxFiles})\n\n*This PR has too many files for AI review. Consider splitting into smaller PRs.*\n\n---\n*Reviewed by [AI Code Reviewer](https://github.com/opesli124/ai-code-reviewer)*`,
+      });
+      return;
+    }
+
+    if (totalChanges > maxChanges) {
+      core.info(`Skipping review - ${totalChanges} changes exceeds limit of ${maxChanges}`);
+      await client.rest.issues.createComment({
+        owner: repoOwner,
+        repo: repoRepo,
+        issue_number: prNumber,
+        body: `## 🤖 AI Code Review\n\n⚠️ Skipped - Too many changes (${totalChanges} > ${maxChanges} lines)\n\n*This PR has too many changes for AI review. Consider splitting into smaller PRs.*\n\n---\n*Reviewed by [AI Code Reviewer](https://github.com/opesli124/ai-code-reviewer)*`,
+      });
+      return;
+    }
 
     // Build context from changed files
     let diffContent = '';
