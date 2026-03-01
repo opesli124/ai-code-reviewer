@@ -1,17 +1,19 @@
 # AI Code Reviewer
 
+[![GitHub stars](https://img.shields.io/github/stars/opesli124/ai-code-reviewer?style=flat)](https://github.com/opesli124/ai-code-reviewer)
+[![Version](https://img.shields.io/github/v/release/opesli124/ai-code-reviewer)](https://github.com/opesli124/ai-code-reviewer/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
 A GitHub Action that provides AI-powered code review for Pull Requests using OpenAI, Anthropic Claude, or Ollama.
 
-## Features
+## Why AI Code Reviewer?
 
-- **Code Review**: Analyzes PR changes and provides actionable feedback
-- **Security Analysis**: Identifies potential security vulnerabilities
-- **Best Practices**: Suggests improvements for code quality
-- **Bug Detection**: Spots potential bugs and issues
-- Posts review as a comment on the PR
-- Supports multiple AI providers (OpenAI, Claude, Ollama)
+- **No more waiting** for code reviews - get instant feedback on every PR
+- **Catch bugs early** before they reach production
+- **Learn and improve** with AI suggestions on best practices
+- **Free option available** - use Ollama to run locally without API costs
 
-## Quick Start
+## Quick Start (3 lines)
 
 ```yaml
 name: AI Code Review
@@ -22,16 +24,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: opesli124/ai-code-reviewer@v1.0.0
+      - uses: opesli124/ai-code-reviewer@v1.1.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          api-key: ${{ secrets.OPENAI_API_KEY }}
 ```
 
-## Usage with OpenAI
+## Features
 
 ```yaml
-- uses: opesli124/ai-code-reviewer@v1.0.0
+- uses: opesli124/ai-code-reviewer@v1.1.0
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     api-key: ${{ secrets.OPENAI_API_KEY }}
@@ -42,7 +44,7 @@ jobs:
 ## Usage with Anthropic Claude
 
 ```yaml
-- uses: opesli124/ai-code-reviewer@v1.0.0
+- uses: opesli124/ai-code-reviewer@v1.1.0
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     api-key: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -54,7 +56,7 @@ jobs:
 ## Usage with Ollama (Local)
 
 ```yaml
-- uses: opesli124/ai-code-reviewer@v1.0.0
+- uses: opesli124/ai-code-reviewer@v1.1.0
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     api-key: http://localhost:11434
